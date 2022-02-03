@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <!-- <meta name="csrf-token" content="{{ csrf_token() }}" /> -->
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        window.a = ""
+        $.ajax({
+          type: "GET",
+          url: "http://127.0.0.1:8000/sanctum/csrf-cookie",
+        })
+          .done((data) => {
+            console.log(data);
+          })
+          .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+              console.log("La solicitud ha fallado: " + textStatus);
+              console.log(XMLHttpRequest);
+              console.log(errorThrown);
+            }
+          });
+      function list() {
+        // axios.post('http://127.0.0.1:8000/api/fruit/list').then(res => {
+        //     // console.log(res.data)
+        //     // window.location.reload(true)
+        // })
+        
+        
+        $.ajax({
+        //   data: {
+        //     id: $(this)[0].id,
+        //     x: xPos,
+        //     y: yPos,
+        //   },
+          type: "GET",
+          headers: {
+            "Authorization": "Bearer "+ window.a,
+          },
+          url: "http://127.0.0.1:8000/api/fruit/list",
+        })
+          .done((data) => {
+            console.log(data);
+          })
+          .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+              console.log("La solicitud ha fallado: " + textStatus);
+              console.log(XMLHttpRequest);
+              console.log(errorThrown);
+            }
+          });
+      }
+      function login() {
+        $.ajax({
+          data: {
+            email: "dcano@ibadia.cat",
+            password: "12345678",
+          },
+          type: "POST",
+        //   headers: {
+        //     "X-CSRF-TOKEN": document.cookie,
+        //   },
+          url: "http://127.0.0.1:8000/api/login",
+        })
+          .done((data) => {
+            console.log(data);
+          })
+          .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+              console.log("La solicitud ha fallado: " + textStatus);
+              console.log(XMLHttpRequest);
+              console.log(errorThrown);
+            }
+          });
+      }
+    </script>
+    <!-- <form method="POST" action="http://127.0.0.1:8000/api/login">
+      <input
+        id="email"
+        type="email"
+        name="email"
+        value=""
+        required
+        autocomplete="email"
+        autofocus
+      />
+      <input
+        id="password"
+        type="password"
+        name="password"
+        required
+        autocomplete="current-password"
+      />
+      <button type="submit">Login</button>
+    </form> -->
+    <div onclick="a()">aaaaaa</div>
+  </body>
+</html>

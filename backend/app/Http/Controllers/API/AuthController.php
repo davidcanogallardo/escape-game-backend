@@ -1,7 +1,7 @@
 <?php
    
 namespace App\Http\Controllers\API;
-   use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
