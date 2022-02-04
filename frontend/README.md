@@ -1,27 +1,6 @@
-# vue
+# escape-game
+[Guía de estilo](https://docs.google.com/document/d/1r1NLxsEbXBEwKymeI8dt6CRX5RarcYR7oNKzLVRLGTY/edit)
 
-> A Vue.js project
+[Wireframe](https://www.figma.com/file/COWluyLnAtcLJ1AZDhkoae/WireFrame?node-id=314%3A2)
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+[ideas juego](https://docs.google.com/document/d/1jedpuKpQmrEG-suskl6NpOlF0Yam-Xpqf5LG0kICt5A/edit)

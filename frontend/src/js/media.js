@@ -3,6 +3,7 @@ var getusermedia = window.getUserMedia
 var devices = undefined;
 var webcamStarted = false;
 var audio = document.createElement('audio');
+var video = document.createElement('video');
 
 var mediaDevicesPromise = navigator.mediaDevices.getUserMedia({
 	audio: true,
@@ -30,10 +31,7 @@ mediaDevicesPromise
 						// option.innerHTML = device.label;
 						// option.value = device.deviceId;
 
-						if (constraintsObject.deviceId == undefined) {
-							//Checking the right one
-							constraintsObject.deviceId = device.deviceId;
-						}
+						
 						camArray.push(cam)
 						// camArray.appendChild(option);
 					} else if (device.kind == "audioinput") {
@@ -45,10 +43,7 @@ mediaDevicesPromise
 						// option.innerHTML = device.label;
 						// option.value = device.deviceId;
 
-						if (constraintsObject.deviceId == undefined) {
-							//Checking the right one
-							constraintsObject.deviceId = device.deviceId;
-						}
+						
 						micArray.push(mic)
 						// micArray.appendChild(option);
 					}
@@ -70,16 +65,13 @@ mediaDevicesPromise
  */
 
 function testMic() {
-
 	micButton = document.getElementById("micTest");
 	if (webcamStarted) {
-		console.log("turining OFF web cam");
+		console.log("turining OFF webcam");
 		micButton.innerHTML = "TEST MICROPHONE";
-
+		//document.getElementById("video").removeChild(video);
 		if (audio) {
-			console.log("hay audio");
 			window.stream.getAudioTracks().forEach(track => track.stop());
-			console.log("he parado los tracks");
 			window.stream = null;
 			audio.pause();
 			audio.currentTime = 0;
@@ -89,19 +81,30 @@ function testMic() {
 		audio = document.createElement('audio');
 		console.log("turning ON webcam");
 		micButton.innerHTML = "STOP TEST";
-		startMic(idMic);
+		stream = startMedia();
+		console.log("hola");
+		audio.controls = true;
+		audio.autoplay = true;
+		audio.srcObject = stream;
+		video.srcObject = stream;
+		
 	}
 	webcamStarted = !webcamStarted;
 }
-function startMic(idMic) {
+	function startMedia() {	
 	var constraintMic = {
-		deviceId: {exact:idMic},
+		deviceId: {exact:window.mic[0].id},
 	};	
-	
+	var constraintCam = {
+		deviceId: {exact:window.cam[0].id},
+	};	
 	getusermedia(
 		{
 			//video: true,
-			video: false,
+			video: {constraintCam,
+			width: 200,
+			height: 150
+			},
 			audio: constraintMic
 		},
 		function (err, stream) {
@@ -109,23 +112,16 @@ function startMic(idMic) {
 				console.log(err);
 			} else {
 				//We can create the object dinamycly if we need to
-				//video = document.createElement("video");
-				//document.body.appendChild(video);
+				// document.getElementById("video").appendChild(video);
 				// audio.controls = true;
 				// audio.autoplay = true;
-				window.stream = stream;
 				// audio.srcObject = stream;
+				// video.srcObject = stream;
+				// video.play();
+				window.stream=stream;
 			}
+			
 		}
 	);
+	return stream;
 }
-
-/**
- * TEST constraints example
- */
-
-var constraintsObject = {
-	deviceId: {
-		exact: undefined,
-	},
-};
