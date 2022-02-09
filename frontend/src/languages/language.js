@@ -1,5 +1,5 @@
 import { languages } from './index.js'
-import VueI18n from 'vue-i18n'
+
 const messages = languages;
 
 console.log(messages);
