@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
    
@@ -15,9 +16,14 @@ class AuthController extends BaseController
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
             $auth = Auth::user(); 
-            $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken; 
+            $id = Auth::id(); 
+            $friendList = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $id union all SELECT friend1_id FROM `friend_lists` where friend2_id = $id)");
+            
             $success['name'] =  $auth->name;
+            $success['friendlist'] =  $friendList;
+            $success['photo'] =  Auth::user()->profile_photo; 
             $success['all'] =  $auth;
+            $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken; 
    
             return $this->handleResponse($success, 'User logged-in!');
         } 

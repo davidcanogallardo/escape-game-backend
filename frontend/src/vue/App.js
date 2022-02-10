@@ -82,7 +82,8 @@ var app = new Vue({
         messages: {},
         messagesunread: false,
         peopleUnread: [],
-        notificationunsread: false
+        notificationunsread: false,
+        token: null,
     },
     watch: {
         currentPage: function (newPage, oldPage) {
@@ -136,22 +137,23 @@ var app = new Vue({
                         console.log("La solicitud se ha completado correctamente.");
                         console.log(data);
                         window.data = data
+                        window.token = data.data.token
+                        var userInfo = data.data
                         // login(data)
                         if (data.success) {
-                  
                             let user = new User(
-                                "subpole"
-                                // data.userData.username,
-                                // data.userData.friendsList,
-                                // data.userData.notifications,
-                                // data.userData.completedLevels,
-                                // data.userData.favMap,
-                                // data.userData.numTrophies,
-                                // data.userData.profileImg
+                                userInfo.name,
+                                userInfo.friendlist,
+                                [ "Luis", "Jose" ],
+                                [{name: "pisos Picodos", time: "1:00:20", trophies: { bronze: true, silver: true, gold: true }}],
+                                "summoners rift",
+                                12,
+                                JSON.parse(userInfo.photo)
                             )
                             sessionStorage.setItem("session", JSON.stringify(user))
                             // this.$root.currentPage = "home"
                             this.$root.user = user
+                            this.$root.token = data.data.token
                             connect()
                         } else {
                             console.log(data.message);
@@ -181,6 +183,7 @@ var app = new Vue({
                     "confirm_password": form_data.password_confirm,
                 },
                 type: "POST",
+                // headers: {'X-CSRF-TOKEN': window.token},
                 // dataType: "json",
                 // contentType: "application/json",
                 url: "http://127.0.0.1:8000/api/register",
@@ -436,4 +439,5 @@ var app = new Vue({
 
 })
 var that = this
+window.app = app
 export { app } 

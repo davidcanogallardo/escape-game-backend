@@ -10,15 +10,14 @@
   </head>
   <body>
     <script>
+      console.log("get cookie");
         window.a = ""
         $.ajax({
           type: "GET",
           url: "http://127.0.0.1:8000/sanctum/csrf-cookie",
-        })
-          .done((data) => {
+        }).done((data) => {
             console.log(data);
-          })
-          .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             if (console && console.log) {
               console.log("La solicitud ha fallado: " + textStatus);
               console.log(XMLHttpRequest);
@@ -58,14 +57,17 @@
       function login() {
         $.ajax({
           data: {
-            email: "dcano@ibadia.cat",
-            password: "12345678",
+            email: "a@a.aa",
+            password: "a",
             
           },
           type: "POST",
-        //   headers: {
-        //     "X-CSRF-TOKEN": document.cookie,
-        //   },
+          headers: {
+            "X-CSRF-TOKEN": document.cookie,
+          },
+          xhrFields: {
+             withCredentials: true
+          },
           url: "http://127.0.0.1:8000/api/login",
         })
           .done((data) => {
