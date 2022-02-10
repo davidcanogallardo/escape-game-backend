@@ -135,6 +135,7 @@ var app = new Vue({
                     if (console && console.log) {
                         console.log("La solicitud se ha completado correctamente.");
                         console.log(data);
+                        window.data = data
                         // login(data)
                         if (data.success) {
                   
@@ -149,7 +150,7 @@ var app = new Vue({
                                 // data.userData.profileImg
                             )
                             sessionStorage.setItem("session", JSON.stringify(user))
-                            this.$root.currentPage = "home"
+                            // this.$root.currentPage = "home"
                             this.$root.user = user
                             connect()
                         } else {

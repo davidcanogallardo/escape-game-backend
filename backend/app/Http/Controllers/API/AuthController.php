@@ -17,6 +17,7 @@ class AuthController extends BaseController
             $auth = Auth::user(); 
             $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken; 
             $success['name'] =  $auth->name;
+            $success['all'] =  $auth;
    
             return $this->handleResponse($success, 'User logged-in!');
         } 
@@ -39,6 +40,8 @@ class AuthController extends BaseController
         }
    
         $input = $request->all();
+        // $input->profile_photo = "{'icon':'user','iconColor':'grey','iconBG':'white'}";
+
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] =  $user->createToken('LaravelSanctumAuth')->plainTextToken;

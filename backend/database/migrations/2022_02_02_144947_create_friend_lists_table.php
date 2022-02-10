@@ -14,8 +14,9 @@ class CreateFriendListsTable extends Migration
     public function up()
     {
         Schema::create('friend_lists', function (Blueprint $table) {
-            $table->bigInteger('friend1_id')->unsigned()->index();
-            $table->bigInteger('friend2_id')->unsigned()->index();
+            $table->id();
+            $table->bigInteger('friend1_id')->unsigned();
+            $table->bigInteger('friend2_id')->unsigned();
             $table->foreign('friend1_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('friend2_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

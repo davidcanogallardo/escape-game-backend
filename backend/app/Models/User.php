@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_photo',
     ];
 
     /**
@@ -40,5 +41,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        // 'profile_photo' => 'array'
     ];
+    protected $attributes = array(
+        'profile_photo' => '{"icon":"user","iconColor":"grey","iconBG":"white"}'
+    );
 }

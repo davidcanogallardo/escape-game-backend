@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 // Route::post('list', [UserController::class, 'list']);
-Route::post('list', [UserController::class, 'list'])->middleware('auth');;
+Route::post('list', [UserController::class, 'list']);
+Route::post('friendlist', [UserController::class, 'friendList'])->middleware('auth:sanctum');

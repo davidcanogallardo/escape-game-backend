@@ -88,10 +88,10 @@ Vue.component('login', {
                     console.log(testEmail);
                     if(testEmail){
                         console.log("Contraseñas iguales");
-                        // console.log(this.signupInput);
-                        // console.log(this.signupInput.username);
-                        // console.log(this.signupInput.password);
-                        // console.log(this.signupInput.mail);
+                        console.log(this.signupInput);
+                        console.log(this.signupInput.username);
+                        console.log(this.signupInput.password);
+                        console.log(this.signupInput.mail);
                         this.$root.signupPetition(this.signupInput);
                     } else {
                         this.errorType = "register";

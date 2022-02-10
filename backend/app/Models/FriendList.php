@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FriendList extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = ['friend1_id', 'friend2_id'];
+    protected $fillable = [
+        'friend1_id',
+        'friend2_id'
+    ];
+    // protected $primaryKey = ['friend1_id', 'friend2_id'];
+    // public $incrementing = false;
 }
