@@ -48,7 +48,7 @@ class UserController extends BaseController
                 ]);
                 // dd("existe");
             } else {
-                dd("no existe");
+                // dd("no existe");
                 return $this->handleError('No existe el usuario', ['error'=>'Id incorrecto']);
             }
 

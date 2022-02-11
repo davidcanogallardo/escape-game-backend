@@ -250,15 +250,18 @@ var app = new Vue({
     sendFriendRequest(friend) {
       $.ajax({
         data: {
-            "addressee_name":  "hola"
+            "addressee_name":  friend
+        },
+        xhrFields: {
+          withCredentials: true
         },
         type: "PUT",
         // dataType: "json",
         headers: {
             // 'X-CSRF-TOKEN': "",
-            'Authorization': "Bearer " + window.token
+            'Authorization': "Bearer "+ window.token
         },
-        url: "http://127.0.0.1:8000/api/user/sendrequest",
+        url: "http://localhost:8000/api/user/sendrequest",
       }).done((data) => {
           console.log(data);
           if (data.success) {
