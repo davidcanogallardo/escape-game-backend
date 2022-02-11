@@ -7,7 +7,7 @@ Vue.component('notification-item', {
         <div class="icon-container pr-btn" >
             <i class="fas fa-user" aria-hidden="true"></i>
         </div>
-        <span >{{name}}</span>
+        <span >{{name.name}}</span>
         <div class="btn accept" v-on:click="request(true)">
             <i class="fas fa-check" aria-hidden="true"></i>
         </div>

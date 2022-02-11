@@ -13,5 +13,9 @@ class User {
     getUser() {
         return this.username
     }
+
+    getNotifications() {
+        return this.notifications 
+    }
 }
 

@@ -121,10 +121,50 @@ var app = new Vue({
     this.$nextTick(() => {
       if (this.user) {
         connect();
+        window.setInterval(this.updateFriendRequest, 15000);
       }
     });
+
   },
   methods: {
+    //laravel
+    owo() {
+      console.log("owo")
+    },
+    updateFriendRequest() {
+      console.log("trato de actualizar peticiones")
+      if (this.user) {
+        $.ajax({
+          xhrFields: {
+              withCredentials: true
+          },
+          type: "GET",
+          // dataType: "json",
+          headers: {
+              // 'X-CSRF-TOKEN': "",
+              'Authorization': "Bearer "+ this.token
+          },
+          url: "http://127.0.0.1:8000/api/user/listrequests",
+        }).done((data) => {
+                console.log(data.data.requests);
+                console.log(this.app.user.notifications);
+                if (data.data.requests>this.app.user.notifications) {
+                  this.app.notificationunsread = true
+                }
+                this.app.user.notifications = data.data.requests
+                window.setTimeout(this.updateFriendRequest(), 15000);
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+                console.log(XMLHttpRequest);
+                console.log(errorThrown);
+                window.setTimeout(this.updateFriendRequest(), 15000);
+            }
+        });
+        
+      }
+      
+    },
     //laravel
     loginPetition(form_data) {
       $.ajax({
@@ -148,7 +188,7 @@ var app = new Vue({
               let user = new User(
                 userInfo.name,
                 userInfo.friendlist,
-                ["Luis", "Jose"],
+                userInfo.requests,
                 [
                   {
                     name: "pisos Picodos",
@@ -161,6 +201,8 @@ var app = new Vue({
                 JSON.parse(userInfo.photo)
               );
               sessionStorage.setItem("session", JSON.stringify(user));
+              sessionStorage.setItem("token", window.token);
+              window.setTimeout(this.updateFriendRequest(), 15000);
               // this.$root.currentPage = "home"
               this.$root.user = user;
               this.$root.token = data.data.token;

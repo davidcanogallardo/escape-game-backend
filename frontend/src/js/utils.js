@@ -2,8 +2,9 @@
 //recover user session
 function getSessionUser() {
   let sessionUser = JSON.parse(sessionStorage.getItem("session"));
+  window.token = sessionStorage.getItem("token")
   var user;
-  if (sessionUser) {
+  if (sessionUser && window.token) {
     console.log("sesion detectada");
     user = new User(
       sessionUser.username,
@@ -15,9 +16,11 @@ function getSessionUser() {
       sessionUser.profileImg,
       sessionUser.language
     );
+    window.token = sessionStorage.getItem("token")
     // connect()
   } else {
     user = "";
+    sessionStorage.clear()
     console.log("no hay sesion");
   }
   return user;

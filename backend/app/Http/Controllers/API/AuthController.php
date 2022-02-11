@@ -18,10 +18,12 @@ class AuthController extends BaseController
             $auth = Auth::user(); 
             $id = Auth::id(); 
             $friendList = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $id union all SELECT friend1_id FROM `friend_lists` where friend2_id = $id)");
-            
+            $friendrequests = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
+
             $success['name'] =  $auth->name;
             $success['friendlist'] =  $friendList;
             $success['photo'] =  Auth::user()->profile_photo; 
+            $success['requests'] =  $friendrequests;
             $success['all'] =  $auth;
             $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken; 
    

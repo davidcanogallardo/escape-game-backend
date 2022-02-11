@@ -13,15 +13,18 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
-    public function list() {
-        $success['usuarios'] =  2;
-        return $this->handleResponse($success, 'lista de usuarios');
+    public function listRequests() {
+        $id = Auth::id();
+        $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
+        $success['requests'] =  $query;
+        return $this->handleResponse($success, 'lista de peticiones amistad');
     }
 
     public function friendList() {
         $auth = Auth::id(); 
 
         $query = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $auth union all SELECT friend1_id FROM `friend_lists` where friend2_id = $auth)");
+
         // $user = FriendList::find();
         // $uno = DB::table('friend_lists')->select('friend2_id as id')->where('friend1_id', 1);
         // $owo = DB::table('friend_lists')->select('friend1_id as id')->where('friend2_id', 1)->unionAll($uno)->get();
