@@ -1,7 +1,10 @@
-# escape-game3
+# escape-game-backend
 He conseguido que no me dé problemas de CORS copiando código de internet sin saber lo que hace, no puedo asegurar que funcione bien. 
 Si quieres que el CORS funcione tienes que poner la ruta de tu fronted en backend\app\Http\Middleware\Cors.php línea 10:  
 `->header("Access-Control-Allow-Origin", "http:://tufrontend")`
+
+Del frontend, principalmente he modificado el fichero frontend\src\vue\App.js pero he hecho algún pequeño cambio en otros ficheros.
+
 # Petiones al servidor
 ## Login
 - **Tablas implicadas:** users
