@@ -120,8 +120,11 @@ var app = new Vue({
     this._i18n.locale = this.user.language;
     this.$nextTick(() => {
       if (this.user) {
+        console.log("set token")
+        this.token = window.token
         connect();
         window.setInterval(this.updateFriendRequest, 15000);
+        window.setInterval(this.updateFriendList, 50000);
       }
     });
 
@@ -131,6 +134,36 @@ var app = new Vue({
     owo() {
       console.log("owo")
     },
+    //laravel
+    updateFriendList() {
+      console.log("trato de actualizar lista amigos")
+      if (this.user) {
+        $.ajax({
+          xhrFields: {
+              withCredentials: true
+          },
+          type: "POST",
+          // dataType: "json",
+          headers: {
+              // 'X-CSRF-TOKEN': "",
+              'Authorization': "Bearer "+ this.token
+          },
+          url: "http://127.0.0.1:8000/api/friendlist",
+        }).done((data) => {
+            console.log(data);
+            this.user.friendsList = data.data.query
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+                console.log(XMLHttpRequest);
+                console.log(errorThrown);
+            }
+        });
+        
+      }
+      
+    },    
+    //laravel
     updateFriendRequest() {
       console.log("trato de actualizar peticiones")
       if (this.user) {
@@ -147,18 +180,16 @@ var app = new Vue({
           url: "http://127.0.0.1:8000/api/user/listrequests",
         }).done((data) => {
                 console.log(data.data.requests);
-                console.log(this.app.user.notifications);
-                if (data.data.requests>this.app.user.notifications) {
-                  this.app.notificationunsread = true
+                console.log(this.user.notifications);
+                if (data.data.requests>this.user.notifications) {
+                  this.notificationunsread = true
                 }
-                this.app.user.notifications = data.data.requests
-                window.setTimeout(this.updateFriendRequest(), 15000);
+                this.user.notifications = data.data.requests
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             if (console && console.log) {
                 console.log("La solicitud ha fallado: " + textStatus);
                 console.log(XMLHttpRequest);
                 console.log(errorThrown);
-                window.setTimeout(this.updateFriendRequest(), 15000);
             }
         });
         
@@ -203,7 +234,7 @@ var app = new Vue({
               sessionStorage.setItem("session", JSON.stringify(user));
               sessionStorage.setItem("token", window.token);
               window.setTimeout(this.updateFriendRequest(), 15000);
-              // this.$root.currentPage = "home"
+              this.$root.currentPage = "home"
               this.$root.user = user;
               this.$root.token = data.data.token;
               connect();
@@ -307,12 +338,11 @@ var app = new Vue({
       }).done((data) => {
           console.log(data);
           if (data.success) {
-              console.log("-----------------------")
+            console.log("peticion de amistad enviada");
             console.log(data);
             // showNotification("Petición de amistad enviada a "+friend, "#49EE63")
-            // this.$root.user.notifications.push(friend);
-            // this.notificationunsread = true;
-            // sessionStorage.setItem("session", JSON.stringify(this.$root.user));
+          } else {
+            console.warn("peticion de amistad no enviada")
           }
         }).fail(function (textStatus) {
             if (console && console.log) {
@@ -384,21 +414,16 @@ var app = new Vue({
           }
         });
     },
+    //laravel
     friendRequest(username, friend, accept) {
       $.ajax({
-        data: {
-          petition: "friend-request",
-          params: {
-            user: username,
-            friend: friend,
-            accept: accept,
-          },
-        },
         type: "PUT",
-        dataType: "json",
-        url: _url,
-      })
-        .done((data) => {
+        url: "http://localhost:8000/api/user/handlerequest/"+friend.name+"/"+accept,
+        headers: {
+          // 'X-CSRF-TOKEN': "",
+          'Authorization': "Bearer "+ this.token
+      },
+      }).done((data) => {
           console.log(data);
           if (data.success) {
             if (accept) {
@@ -489,6 +514,29 @@ var app = new Vue({
           }
         });
     },
+    //laravel
+    updatePhoto(photo) {
+      $.ajax({
+        data: {
+          "photo": photo
+        },
+        type: "PUT",
+        url: "http://localhost:8000/api/user/update/photo",
+        headers: {
+          // 'X-CSRF-TOKEN': "",
+          'Authorization': "Bearer "+ this.token
+        },
+      }).done((data) => {
+          console.log(data);
+
+        })
+        .fail(function (textStatus) {
+          if (console && console.log) {
+            console.log("La solicitud ha fallado: " + textStatus);
+            console.log(textStatus);
+          }
+        });
+    }
   },
 });
 var that = this;

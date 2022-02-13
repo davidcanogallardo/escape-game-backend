@@ -79,11 +79,12 @@ Vue.component('change',{
             }
         },
         saveChanges(){
-            profileImg={
+            var profileImg = {
                 iconBG: this.currentBG,
                 icon: this.currentIcon,
                 iconColor: this.currentIconColor,
             };
+            window.app.updatePhoto(profileImg)
             this.$root.user.profileImg = profileImg;
             sessionStorage.setItem("session", JSON.stringify(this.$root.user))
         }

@@ -11,6 +11,10 @@ class FriendResquests extends Model
 
     protected $fillable = [
         'requester_id',
-        'addressee_id'
+        'addressee_id',
+        'status'
     ];
+    protected $attributes = array(
+        'status' => false
+    );
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\Csrf;
 |
 */
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -23,6 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 // Route::post('list', [UserController::class, 'list']);
-Route::get('/user/listrequests', [UserController::class, 'listRequests'])->middleware('auth:sanctum');
+Route::get('/user/listrequests', [UserController::class, 'listRequests'])->middleware('auth:sanctum', 'cors');
+Route::put('/user/handlerequest/{friend}/{response}', [UserController::class, 'handleRequest'])->middleware('auth:sanctum');
+Route::put('/user/update/photo', [UserController::class, 'updatePhoto'])->middleware('auth:sanctum');
 Route::post('friendlist', [UserController::class, 'friendList'])->middleware('auth:sanctum');
 Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middleware('auth:sanctum');

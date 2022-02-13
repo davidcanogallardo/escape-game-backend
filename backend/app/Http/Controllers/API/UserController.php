@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
+
     public function listRequests() {
         $id = Auth::id();
         $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
@@ -71,5 +72,22 @@ class UserController extends BaseController
         } else {
             return $this->handleError('No se ha enviado el id del amigo', ['error'=>'Id no enviado']);
         }
+    }
+
+    public function handleRequest($friend, $response) {
+        $id = Auth::id();
+        $friendId = DB::select("SELECT id FROM `users` WHERE `name` = '$friend';");
+        $friendId = $friendId[0]->id;
+        
+        if ($response == "true") {
+            DB::insert("INSERT INTO `friend_lists` (friend1_id, friend2_id) VALUES ($id, $friendId); ");
+        }
+        DB::delete("DELETE FROM `friend_resquests` WHERE requester_id = $friendId and addressee_id = $id; ");
+    }
+
+    public function updatePhoto(Request $request) {
+        $user = Auth::user();
+        $user->profile_photo = $request->all()['photo'];
+        $user->save();
     }
 }

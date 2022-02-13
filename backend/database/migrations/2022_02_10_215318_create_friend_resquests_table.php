@@ -19,6 +19,7 @@ class CreateFriendResquestsTable extends Migration
             $table->bigInteger('addressee_id')->unsigned();
             $table->foreign('requester_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('addressee_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
