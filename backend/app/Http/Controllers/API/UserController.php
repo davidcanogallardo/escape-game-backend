@@ -50,6 +50,7 @@ class UserController extends BaseController
                     "requester_id" => $requester_id, 
                     "addressee_id" => $addressee_id
                 ]);
+                return $this->handleResponse([], 'Solicitud enviada');
                 // dd("existe");
             } else {
                 // dd("no existe");

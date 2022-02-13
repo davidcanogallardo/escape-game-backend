@@ -185,6 +185,7 @@ var app = new Vue({
                   this.notificationunsread = true
                 }
                 this.user.notifications = data.data.requests
+                sessionStorage.setItem("session", JSON.stringify(this.user));
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             if (console && console.log) {
                 console.log("La solicitud ha fallado: " + textStatus);
@@ -233,7 +234,8 @@ var app = new Vue({
               );
               sessionStorage.setItem("session", JSON.stringify(user));
               sessionStorage.setItem("token", window.token);
-              window.setTimeout(this.updateFriendRequest(), 15000);
+              window.setTimeout(this.updateFriendRequest, 15000);
+              window.setInterval(this.updateFriendList, 50000);
               this.$root.currentPage = "home"
               this.$root.user = user;
               this.$root.token = data.data.token;
