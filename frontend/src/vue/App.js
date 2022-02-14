@@ -427,7 +427,8 @@ var app = new Vue({
       },
       }).done((data) => {
           console.log(data);
-          if (data.success) {
+          //aun el backend no devuelve nada asi que hago el OR true
+          if (data.success || true) {
             if (accept) {
               this.$root.user.friendsList.push(friend);
             }
