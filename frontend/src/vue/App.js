@@ -64,7 +64,7 @@ let excludedPages = [
   "waiting-room",
 ];
 
-let _url = "./src/backend/petitions.php";
+let _url = "http://127.0.0.1:8000";
 
 var app = new Vue({
   i18n,
@@ -148,7 +148,7 @@ var app = new Vue({
               // 'X-CSRF-TOKEN': "",
               'Authorization': "Bearer "+ this.token
           },
-          url: "http://127.0.0.1:8000/api/friendlist",
+          url: _url+"/api/friendlist",
         }).done((data) => {
             console.log(data);
             this.user.friendsList = data.data.query
@@ -177,7 +177,7 @@ var app = new Vue({
               // 'X-CSRF-TOKEN': "",
               'Authorization': "Bearer "+ this.token
           },
-          url: "http://127.0.0.1:8000/api/user/listrequests",
+          url: _url+"/api/user/listrequests",
         }).done((data) => {
                 console.log(data.data.requests);
                 console.log(this.user.notifications);
@@ -206,7 +206,7 @@ var app = new Vue({
         },
         type: "POST",
         // dataType: "json",
-        url: "http://127.0.0.1:8000/api/login",
+        url: _url+"/api/login",
       })
         .done((data, textStatus, jqXHR) => {
           if (console && console.log) {
@@ -272,7 +272,7 @@ var app = new Vue({
         // headers: {'X-CSRF-TOKEN': window.token},
         // dataType: "json",
         // contentType: "application/json",
-        url: "http://127.0.0.1:8000/api/register",
+        url: _url+"/api/register",
       })
         .done((data) => {
           console.log(data);
@@ -336,7 +336,7 @@ var app = new Vue({
             // 'X-CSRF-TOKEN': "",
             'Authorization': "Bearer "+ window.token
         },
-        url: "http://localhost:8000/api/user/sendrequest",
+        url: _url+"/api/user/sendrequest",
       }).done((data) => {
           console.log(data);
           if (data.success) {
@@ -420,7 +420,7 @@ var app = new Vue({
     friendRequest(username, friend, accept) {
       $.ajax({
         type: "PUT",
-        url: "http://localhost:8000/api/user/handlerequest/"+friend.name+"/"+accept,
+        url: _url+"/api/user/handlerequest/"+friend.name+"/"+accept,
         headers: {
           // 'X-CSRF-TOKEN': "",
           'Authorization': "Bearer "+ this.token
@@ -524,7 +524,7 @@ var app = new Vue({
           "photo": photo
         },
         type: "PUT",
-        url: "http://localhost:8000/api/user/update/photo",
+        url: _url+"/api/user/update/photo",
         headers: {
           // 'X-CSRF-TOKEN': "",
           'Authorization': "Bearer "+ this.token
