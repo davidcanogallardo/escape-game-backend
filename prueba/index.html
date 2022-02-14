@@ -14,7 +14,7 @@
         window.a = ""
         $.ajax({
           type: "GET",
-          url: "http://127.0.0.1:8000/api/csrf-cookie",
+          url: "http://127.0.0.1:8001/api/csrf-cookie",
         }).done((data) => {
             console.log(data);
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
@@ -68,7 +68,7 @@
           xhrFields: {
              withCredentials: true
           },
-          url: "http://127.0.0.1:8000/api/login",
+          url: "http://127.0.0.1:8001/api/login",
         })
           .done((data) => {
             console.log(data);
@@ -96,7 +96,7 @@
             // 'X-CSRF-TOKEN': "",
             'Authorization': "Bearer 9|k7aqDuWrlVqwqBdRJxS4GOu6LMeY3Dq3CAfCZdr8"
         },
-        url: "http://localhost:8000/api/user/sendrequest",
+        url: "http://localhost:8001/api/user/sendrequest",
       }).done((data) => {
           console.log(data);
           if (data.success) {
@@ -138,7 +138,39 @@
             }
         });
       }
-    </script>
+
+      function register() {
+        $.ajax({
+          data: {
+            name: "a",
+          email: "a@a.aa",
+          password: "a",
+          confirm_password: "a"
+            
+          },
+          xhrFields: {
+              withCredentials: true
+          },
+          type: "POST",
+          // dataType: "json",
+          headers: {
+              // 'X-CSRF-TOKEN': "",
+              'Authorization': "Bearer "+ window.token
+          },
+          url: "http://127.0.0.1:8001/api/register",
+        }).done((data) => {
+                console.log(data.data.requests);
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            if (console && console.log) {
+                console.log("La solicitud ha fallado: " + textStatus);
+                console.log(XMLHttpRequest);
+                console.log(errorThrown);
+            }
+        });
+    }
+   
+   </script>
+
     <!-- <form method="POST" action="http://127.0.0.1:8000/api/login">
       <input
         id="email"
