@@ -5,7 +5,7 @@ Si quieres que el CORS funcione tienes que poner la ruta de tu fronted en backen
 
 Del frontend, principalmente he modificado el fichero frontend\src\vue\App.js pero he hecho algún pequeño cambio en otros ficheros.
 
-# Petiones al servidor
+# Petiones a la API
 ## Login
 - **Tablas implicadas:** users
 - **Localizacion backend:** .\app\Http\Controllers\API\AuthController.php - function login()  
