@@ -64,7 +64,7 @@ let excludedPages = [
   "waiting-room",
 ];
 
-let _url = "http://127.0.0.1:8000";
+let _url = "http://127.0.0.1:8001";
 
 var app = new Vue({
   i18n,
