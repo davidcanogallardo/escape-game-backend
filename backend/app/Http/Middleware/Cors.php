@@ -7,7 +7,7 @@ class Cors
   {
     return $next($request)
        //Url a la que se le dará acceso en las peticiones
-      ->header("Access-Control-Allow-Origin", '${APP_URL}')
+      ->header("Access-Control-Allow-Origin", env('${APP_URL}'))
       ->header("Access-Control-Allow-Credentials", "true")
       //Métodos que a los que se da acceso
       ->header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
