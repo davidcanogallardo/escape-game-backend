@@ -4,7 +4,9 @@
 composer install
 cp .env.example .env
 php artisan key:generate
-@REM comanda que sea pa correr un contenedor de docker
 
-@REM php artisan migrate
-@REM php artisan db:seed
+@REM esto pero para windows
+@REM sudo ./vendor/bin/sail up
+@REM sudo ./vendor/bin/sail artisan storage:link
+@REM sudo ./vendor/bin/sail artisan key:generate
+@REM sudo ./vendor/bin/sail artisan migrate
