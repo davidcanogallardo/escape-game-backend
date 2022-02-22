@@ -6,6 +6,11 @@ Al clonar el proyecto corre el fichero run.bat o run.sh para que baje las depend
 `SESSION_DOMAIN=http://localhost`  
 `SANCTUM_STATEFUL_DOMAINS=http://localhost`    
 
+# Dockerizar
+Se levanta el contendor con `./vendor/bin/sail up` (En Linux), corre la API por el puerto 1111 y phpmyadmin por el puerto 1112.  
+
+Con `./vendor/bin/sail` se puede correr comandas sobre el contenedor levantado, por ejemplo, hacer un migrate al contendor:  
+`./vendor/bin/sail artisan migrate`
 
 # Petiones a la API
 ## Login
