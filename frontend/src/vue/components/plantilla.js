@@ -1,7 +1,0 @@
-Vue.component('', {
-    template: //html
-    `             
-  
-    `, 
-})
-
