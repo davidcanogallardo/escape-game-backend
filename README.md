@@ -5,7 +5,6 @@ Al clonar el proyecto corre el fichero run.bat o run.sh para que baje las depend
 `APP_URL=http://localhost`  
 `SESSION_DOMAIN=http://localhost`  
 `SANCTUM_STATEFUL_DOMAINS=http://localhost`    
-
 # Docker
 Se levanta el contendor con `./vendor/bin/sail up` (En Linux), corre la API por el puerto 1111 y phpmyadmin por el puerto 1112.  
 
