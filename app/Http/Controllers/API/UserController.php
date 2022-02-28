@@ -8,6 +8,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use App\Models\FriendResquests;
 use App\Models\FriendList;
+use App\Models\Game;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -90,5 +91,18 @@ class UserController extends BaseController
         $user = Auth::user();
         $user->profile_photo = $request->all()['photo'];
         $user->save();
+    }
+
+    public function addGame($level, $time, Request $request) {
+        // id player -> Auth::id()
+        // level -> $level
+        // time -> $time
+        $game = [
+            'player' => Auth::id(),
+            'level' => $level,
+            'time' => $time
+        ];
+
+        Game::create($game);
     }
 }
