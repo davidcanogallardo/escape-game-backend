@@ -9,6 +9,10 @@ use App\Models\User;
 use App\Models\FriendResquests;
 use App\Models\FriendList;
 use App\Models\Game;
+use App\Models\ranking_alltime;
+use App\Models\RankingAll;
+use App\Models\RankingWeekly;
+use App\Models\RankingDaily;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -93,16 +97,53 @@ class UserController extends BaseController
         $user->save();
     }
 
-    public function addGame($level, $time, Request $request) {
-        // id player -> Auth::id()
-        // level -> $level
-        // time -> $time
-        $game = [
-            'player' => Auth::id(),
-            'level' => $level,
-            'time' => $time
-        ];
+    public function addGame($level, $time) {
+        $id = Auth::id();
+        $difficulty = DB::table('levels')->where('id',$level)->value('difficulty');
+        $nChallenges = DB::table('levels')->where('id',$level)->value('nChallenge');
 
-        Game::create($game);
+        //Compruebo si el usuario no tiene una puntuación en esa dificultad en la table de ranking all
+        if (empty(DB::select("SELECT * FROM ranking_alls WHERE user = $id AND difficulty = '$difficulty'"))) {
+            $score = round(($time/4)*($nChallenges*16),0);
+            $game = [
+                'user' => $id,
+                'difficulty' => $difficulty,
+                'nGames' => 1,
+                'avgScore' => $score
+            ];
+
+            // Creo una entrada en todas las tablas de ranking
+            RankingAll::create($game);
+            RankingDaily::create($game);
+            RankingWeekly::create($game);
+            return 1;
+
+            $success['score'] =  $score;
+            return $this->handleResponse($success, 'puntuación guardada');
+        } else {
+            // Calculo la puntuación de la partida que acaba de jugar el usuario
+            $score = round(($time/4)*($nChallenges*16),0);
+
+            $all = new RankingAll();
+            $week = new RankingWeekly();
+            $daily = new RankingDaily();
+
+            //Itero por cada tabla/modelo para actualizar la puntuación (esta es la unica manera que he encontrado para hacerlo)
+            foreach ([$all, $week, $daily] as $model) {
+                //Busco la fila en la tabla/model de ese usuario con la dificultad de la partida que ha jugado
+                $row = $model->where('user', $id)->where('difficulty', $difficulty)->get();
+                $row = $row->all()[0];
+
+                // Actualizo la media de puntuación
+                $avgScore = round((($row->avgScore*$row->nGames)+$score)/($row->nGames+1),0);
+                $row->avgScore = $avgScore;
+                $row->nGames += 1;
+    
+                $row->save();
+            }
+            $success['avgScore'] =  $avgScore;
+            $success['score'] =  $score;
+            return $this->handleResponse($success, 'puntuación guardada');
+        }
     }
 }
