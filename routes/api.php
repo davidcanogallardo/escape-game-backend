@@ -28,5 +28,6 @@ Route::get('/user/listrequests', [UserController::class, 'listRequests'])->middl
 Route::put('/user/handlerequest/{friend}/{response}', [UserController::class, 'handleRequest'])->middleware('auth:sanctum');
 Route::put('/user/update/photo', [UserController::class, 'updatePhoto'])->middleware('auth:sanctum');
 Route::post('friendlist', [UserController::class, 'friendList'])->middleware('auth:sanctum');
+Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middleware('auth:sanctum');
 Route::post('/user/addgame/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
 Route::post('/ranking', [RankingController::class, 'getRanking']);
