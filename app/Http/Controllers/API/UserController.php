@@ -97,6 +97,7 @@ class UserController extends BaseController
         $user = Auth::user();
         $user->profile_photo = $request->all()['photo'];
         $user->save();
+        return $this->handleResponse([], 'Foto actualizada');
     }
 
     public function addGame($level, $time) {
