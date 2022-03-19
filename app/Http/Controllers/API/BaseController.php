@@ -19,7 +19,7 @@ class BaseController extends Controller
         return response()->json($res, 200);
     }
 
-    public function handleError($error, $errorMsg = [], $code = 404)
+    public function handleError($error, $errorMsg = [], $code = 200)
     {
     	$res = [
             'success' => false,

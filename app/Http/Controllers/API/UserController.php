@@ -89,6 +89,8 @@ class UserController extends BaseController
             DB::insert("INSERT INTO `friend_lists` (friend1_id, friend2_id) VALUES ($id, $friendId); ");
         }
         DB::delete("DELETE FROM `friend_resquests` WHERE requester_id = $friendId and addressee_id = $id; ");
+        // TODO
+        return $this->handleResponse([], 'Solicitud aceptada/rechazada');
     }
 
     public function updatePhoto(Request $request) {
