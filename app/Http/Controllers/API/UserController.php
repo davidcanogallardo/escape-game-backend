@@ -104,7 +104,7 @@ class UserController extends BaseController
 
         //Compruebo si el usuario no tiene una puntuación en esa dificultad en la table de ranking all
         if (empty(DB::select("SELECT * FROM ranking_alls WHERE user = $id AND difficulty = '$difficulty'"))) {
-            $score = round(($time/4)*($nChallenges*16),0);
+            $score = calcPoints($time,$nChallenges);
             $game = [
                 'user' => $id,
                 'difficulty' => $difficulty,
@@ -122,7 +122,7 @@ class UserController extends BaseController
             return $this->handleResponse($success, 'puntuación guardada');
         } else {
             // Calculo la puntuación de la partida que acaba de jugar el usuario
-            $score = round(($time/4)*($nChallenges*16),0);
+            $score = calcPoints($time,$nChallenges);
 
             $all = new RankingAll();
             $week = new RankingWeekly();
@@ -145,5 +145,9 @@ class UserController extends BaseController
             $success['score'] =  $score;
             return $this->handleResponse($success, 'puntuación guardada');
         }
+    }
+
+    function calcPoints($time, $nChallenges){
+        return round(($time/4)*($nChallenges*16),0);
     }
 }
