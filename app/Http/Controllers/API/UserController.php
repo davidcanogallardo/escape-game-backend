@@ -22,7 +22,7 @@ class UserController extends BaseController
     public function listRequests() {
         $id = Auth::id();
         $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
-        $success['requests'] =  $query;
+        $success['requests'] = $query;
         return $this->handleResponse($success, 'lista de peticiones amistad');
     }
 
@@ -148,6 +148,12 @@ class UserController extends BaseController
             $success['score'] =  $score;
             return $this->handleResponse($success, 'puntuación guardada');
         }
+    }
+
+    public function getUserInfo($id){
+        $user = DB::select("SELECT id,name, profile_photo FROM `users` WHERE `id` = '$id';");
+        $success['requests'] = $user;
+        return $this->handleResponse($success, 'informacion del usuario');
     }
 
     function calcPoints($time, $nChallenges){

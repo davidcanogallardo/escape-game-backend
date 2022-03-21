@@ -31,3 +31,4 @@ Route::post('friendlist', [UserController::class, 'friendList'])->middleware('au
 Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middleware('auth:sanctum');
 Route::post('/user/addgame/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
 Route::post('/ranking', [RankingController::class, 'getRanking']);
+Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
