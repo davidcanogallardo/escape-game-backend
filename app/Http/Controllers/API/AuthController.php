@@ -14,7 +14,8 @@ class AuthController extends BaseController
 
     public function login(Request $request)
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        if(Auth::attempt([$fieldType => $request->email, 'password' => $request->password])){ 
             $auth = Auth::user(); 
             $id = Auth::id(); 
             $friendList = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $id union all SELECT friend1_id FROM `friend_lists` where friend2_id = $id)");
