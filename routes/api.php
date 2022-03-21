@@ -32,3 +32,4 @@ Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middlew
 Route::post('/user/addgame/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
 Route::post('/ranking', [RankingController::class, 'getRanking']);
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
+Route::get('/user/userhistory/{name}', [UserController::class, 'getUserHistory']);

@@ -150,10 +150,17 @@ class UserController extends BaseController
         }
     }
 
+    //Funcion para obtener la informacion de un usuario.
     public function getUserInfo($id){
         $user = DB::select("SELECT id,name, profile_photo FROM `users` WHERE `id` = '$id';");
         $success['requests'] = $user;
-        return $this->handleResponse($success, 'informacion del usuario');
+        return $this->handleResponse($success, 'Información del usuario');
+    }
+
+    public function getUserHistory($name){
+        $history = DB::select("SELECT * FROM `games` where `user` = '$name';");
+        $success['requests'] = $history;
+        return $this->handleResponse($success, 'Historial del usuario');
     }
 
     function calcPoints($time, $nChallenges){
