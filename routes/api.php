@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\RankingController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\Csrf;
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,6 @@ Route::post('friendlist', [UserController::class, 'friendList'])->middleware('au
 Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middleware('auth:sanctum');
 Route::post('/user/addgame/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
 Route::post('/ranking', [RankingController::class, 'getRanking']);
+Route::get('/getmaps/{diff}', [GameController::class, 'getMaps']);
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
 Route::get('/user/userhistory/{name}', [UserController::class, 'getUserHistory']);
