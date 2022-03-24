@@ -11,35 +11,35 @@ class LevelsSeeder extends Seeder
 {
     public function run(){
         DB::table('levels')->insert([
-            'name' => 'easy1',
+            'name' => '1-1',
             'difficulty'=> 'easy',
             'nChallenge'=> 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         DB::table('levels')->insert([
-            'name' => 'easy2',
+            'name' => '1-2',
             'difficulty'=> 'easy',
             'nChallenge'=> 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         DB::table('levels')->insert([
-            'name' => 'medium1',
+            'name' => '2-1',
             'difficulty'=> 'medium',
             'nChallenge'=> 2,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         DB::table('levels')->insert([
-            'name' => 'medium2',
+            'name' => '2-2',
             'difficulty'=> 'medium',
             'nChallenge'=> 3,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         DB::table('levels')->insert([
-            'name' => 'hard1',
+            'name' => '3-1',
             'difficulty'=> 'hard',
             'nChallenge'=> 3,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

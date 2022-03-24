@@ -10,10 +10,9 @@ class GameController extends Controller
 {
     public function getMaps($diff) {
         $id = DB::table("levels")
-        ->select('id')
         ->where("levels.difficulty",$diff)
         ->get();
-       $ids = $id;
-       return $ids;
+       $maps = $id;
+       return $maps;
     }
 }
