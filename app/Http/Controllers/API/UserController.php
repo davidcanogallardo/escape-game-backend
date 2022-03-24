@@ -158,7 +158,7 @@ class UserController extends BaseController
     }
 
     public function getUserHistory($name){
-        $history = DB::select("SELECT * FROM `games` where `user` = '$name';");
+        $history = DB::select("SELECT id, user, level, time FROM `games` where `user` = '$name';");
         $success['requests'] = $history;
         return $this->handleResponse($success, 'Historial del usuario');
     }
