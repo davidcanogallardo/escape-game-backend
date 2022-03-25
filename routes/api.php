@@ -35,3 +35,4 @@ Route::post('/ranking', [RankingController::class, 'getRanking']);
 Route::get('/getmaps/{diff}', [GameController::class, 'getMaps']);
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
 Route::get('/user/userhistory/{name}', [UserController::class, 'getUserHistory']);
+Route::get('/getScore/{time}/{nChallanges}', [UserController::class, 'calcPoints']);
