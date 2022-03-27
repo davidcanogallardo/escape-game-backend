@@ -9,21 +9,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
    
-class AuthController extends BaseController
-{
+class AuthController extends BaseController {
 
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         if(Auth::attempt([$fieldType => $request->email, 'password' => $request->password])){ 
             $auth = Auth::user(); 
             $id = Auth::id(); 
-            $friendList = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $id union all SELECT friend1_id FROM `friend_lists` where friend2_id = $id)");
+            $friendList = DB::select("SELECT id,name,profile_photo FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $id union all SELECT friend1_id FROM `friend_lists` where friend2_id = $id)");
             $friendrequests = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
 
             $success['name'] =  $auth->name;
+
+            foreach($friendList as &$friend) {
+                $friend->profile_photo = json_decode($friend->profile_photo);
+            }
+
             $success['friendlist'] =  $friendList;
-            $success['photo'] =  Auth::user()->profile_photo; 
+            $success['photo'] =  json_decode(Auth::user()->profile_photo); 
             $success['requests'] =  $friendrequests;
             $success['all'] =  $auth;
             $success['token'] =  $auth->createToken('LaravelSanctumAuth')->plainTextToken; 
@@ -35,8 +38,7 @@ class AuthController extends BaseController
         } 
     }
 
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',

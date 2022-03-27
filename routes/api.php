@@ -23,16 +23,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Auth
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::get('/user/listrequests', [UserController::class, 'listRequests'])->middleware('auth:sanctum', 'cors');
-Route::put('/user/handlerequest/{friend}/{response}', [UserController::class, 'handleRequest'])->middleware('auth:sanctum');
-Route::put('/user/update/photo', [UserController::class, 'updatePhoto'])->middleware('auth:sanctum');
-Route::post('friendlist', [UserController::class, 'friendList'])->middleware('auth:sanctum');
-Route::put('/user/sendrequest', [UserController::class, 'sendRequest'])->middleware('auth:sanctum');
-Route::post('/user/addgame/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
-Route::post('/ranking', [RankingController::class, 'getRanking']);
-Route::get('/getmaps/{diff}', [GameController::class, 'getMaps']);
+
+// User
+Route::get('/user/notification', [UserController::class, 'getNotification'])->middleware('auth:sanctum', 'cors');
+Route::get('/user/friendlist', [UserController::class, 'getFriendList'])->middleware('auth:sanctum');
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
-Route::get('/user/userhistory/{name}', [UserController::class, 'getUserHistory']);
+Route::get('/user/history/{name}', [UserController::class, 'getGameHistory']);
+Route::put('/user/friend-request', [UserController::class, 'sendFriendRequest'])->middleware('auth:sanctum');
+Route::put('/user/handle-request/{friend}/{response}', [UserController::class, 'handleFriendRequest'])->middleware('auth:sanctum');
+Route::put('/user/update/photo', [UserController::class, 'updatePhoto'])->middleware('auth:sanctum');
+Route::put('/user/game/{level}/{time}', [UserController::class, 'addGame'])->middleware('auth:sanctum');
+
+// Game
+Route::get('/game/ranking', [RankingController::class, 'getRanking']);
+Route::get('/game/random-map/{difficulty}', [GameController::class, 'getRandomMap']);
 Route::get('/getScore/{time}/{nChallanges}', [UserController::class, 'calcPoints']);

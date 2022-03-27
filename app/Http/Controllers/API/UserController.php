@@ -19,17 +19,17 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends BaseController
 {
 
-    public function listRequests() {
+    public function getNotification() {
         $id = Auth::id();
         $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
         $success['requests'] = $query;
         return $this->handleResponse($success, 'lista de peticiones amistad');
     }
 
-    public function friendList() {
+    public function getFriendList() {
         $auth = Auth::id(); 
 
-        $query = DB::select("SELECT id,name FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $auth union all SELECT friend1_id FROM `friend_lists` where friend2_id = $auth)");
+        $query = DB::select("SELECT id,name,profile_photo FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $auth union all SELECT friend1_id FROM `friend_lists` where friend2_id = $auth)");
 
         // $user = FriendList::find();
         // $uno = DB::table('friend_lists')->select('friend2_id as id')->where('friend1_id', 1);
@@ -42,7 +42,7 @@ class UserController extends BaseController
         return $this->handleResponse($success, 'amigos');
     }
 
-    public function sendRequest(Request $request) {
+    public function sendFriendRequest(Request $request) {
         if (isset($request->all()["addressee_name"])) {
             $addressee_name = $request->all()['addressee_name'];
             $addressee_id = DB::select("SELECT id FROM `users` WHERE `name` = '$addressee_name';");
@@ -80,7 +80,7 @@ class UserController extends BaseController
         }
     }
 
-    public function handleRequest($friend, $response) {
+    public function handleFriendRequest($friend, $response) {
         $id = Auth::id();
         $friendId = DB::select("SELECT id FROM `users` WHERE `name` = '$friend';");
         $friendId = $friendId[0]->id;
@@ -89,7 +89,6 @@ class UserController extends BaseController
             DB::insert("INSERT INTO `friend_lists` (friend1_id, friend2_id) VALUES ($id, $friendId); ");
         }
         DB::delete("DELETE FROM `friend_resquests` WHERE requester_id = $friendId and addressee_id = $id; ");
-        // TODO
         return $this->handleResponse([], 'Solicitud aceptada/rechazada');
     }
 

@@ -8,9 +8,9 @@ use App\Models\level;
 
 class GameController extends Controller
 {
-    public function getMaps($diff) {
+    public function getRandomMap($difficulty) {
         $id = DB::table("levels")
-        ->where("levels.difficulty",$diff)
+        ->where("levels.difficulty",$difficulty)
         ->get();
        $maps = $id;
        return $maps;
