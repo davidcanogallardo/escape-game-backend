@@ -37,13 +37,13 @@ class RankingController extends BaseController
                 ->take(5)
                 ->get();
             // $rank = RankingAll::where("difficulty", "easy")->select("avgScore AS score","user")->take(5)->with(['users:id,name'])->orderBy("avgScore", "DESC")->get()->makeHidden("user");
-            $ewe = json_decode($rank, true);
-            foreach ($ewe as &$row) {
+
+            // Itero el ranking y con json decode convierto la foto de perfil de String a JSON
+            $rankFormatted = json_decode($rank, true);
+            foreach ($rankFormatted as &$row) {
                 $row['profile_photo'] = json_decode($row['profile_photo']);
-                // var_dump($row['profile_photo']);
-                // var_dump(json_decode($row['profile_photo'], true));
             }
-            $rankings[$i18ranking[$table]] = $ewe;
+            $rankings[$i18ranking[$table]] = $rankFormatted;
         }
 
         return $rankings;

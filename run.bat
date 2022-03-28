@@ -4,7 +4,7 @@
 composer install
 cp .env.example .env
 php artisan key:generate
-
+php artisan migrate
 @REM esto pero para windows
 @REM sudo ./vendor/bin/sail up
 @REM sudo ./vendor/bin/sail artisan storage:link

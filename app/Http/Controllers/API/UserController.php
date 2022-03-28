@@ -21,7 +21,10 @@ class UserController extends BaseController
 
     public function getNotificationList() {
         $id = Auth::id();
-        $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
+        $query = DB::select("SELECT id, name, profile_photo FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
+        foreach ($query as &$row) {
+            $row->profile_photo = json_decode($row->profile_photo);
+        }
         $success['requests'] = $query;
         return $this->handleResponse($success, 'lista de peticiones amistad');
     }
@@ -30,14 +33,9 @@ class UserController extends BaseController
         $auth = Auth::id(); 
 
         $query = DB::select("SELECT id,name,profile_photo FROM `users` WHERE id in (SELECT friend2_id FROM `friend_lists` WHERE friend1_id = $auth union all SELECT friend1_id FROM `friend_lists` where friend2_id = $auth)");
-
-        // $user = FriendList::find();
-        // $uno = DB::table('friend_lists')->select('friend2_id as id')->where('friend1_id', 1);
-        // $owo = DB::table('friend_lists')->select('friend1_id as id')->where('friend2_id', 1)->unionAll($uno)->get();
-        // dd($owo);
-        // $uwu = DB::raw("SELECT friend2_id FROM `friend_lists` WHERE friend1_id = 1 union all SELECT friend1_id FROM `friend_lists` where friend2_id = 1;");
-        // $uwu = FriendList::where("friend1_id", '=', 1);
-        // $uwu = FriendList::select('friend2_id')->whereRaw('friend1_id = 2')->get();
+        foreach ($query as &$row) {
+            $row->profile_photo = json_decode($row->profile_photo);
+        }
         $success['query'] =  $query;
         return $this->handleResponse($success, 'amigos');
     }
