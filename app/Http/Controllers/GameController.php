@@ -9,10 +9,7 @@ use App\Models\level;
 class GameController extends Controller
 {
     public function getRandomMap($difficulty) {
-        $id = DB::table("levels")
-        ->where("levels.difficulty",$difficulty)
-        ->get();
-       $maps = $id;
+       $maps = Level::inRandomOrder()->where("difficulty",$difficulty)->first();
        return $maps;
     }
 }
