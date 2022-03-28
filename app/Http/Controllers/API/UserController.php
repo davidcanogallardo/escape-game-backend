@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends BaseController
 {
 
-    public function getNotification() {
+    public function getNotificationList() {
         $id = Auth::id();
         $query = DB::select("SELECT id, name FROM `users` WHERE id in (SELECT requester_id FROM `friend_resquests` WHERE addressee_id = $id); ");
         $success['requests'] = $query;

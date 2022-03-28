@@ -28,8 +28,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 // User
-Route::get('/user/notification', [UserController::class, 'getNotification'])->middleware('auth:sanctum', 'cors');
-Route::get('/user/friendlist', [UserController::class, 'getFriendList'])->middleware('auth:sanctum');
+Route::get('/user/notification-list', [UserController::class, 'getNotificationList'])->middleware('auth:sanctum', 'cors');
+Route::get('/user/friend-list', [UserController::class, 'getFriendList'])->middleware('auth:sanctum');
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
 Route::get('/user/history/{name}', [UserController::class, 'getGameHistory']);
 Route::put('/user/friend-request', [UserController::class, 'sendFriendRequest'])->middleware('auth:sanctum');
