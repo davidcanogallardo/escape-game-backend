@@ -95,7 +95,7 @@ class UserController extends BaseController
         $user->profile_photo = $request->all()['photo'];
         $user->save();
         return $this->handleResponse([], 'Foto actualizada');
-    }
+    }   
 
     public function addGame($level, $time) {
         $id = Auth::id();
@@ -104,7 +104,7 @@ class UserController extends BaseController
 
         //Compruebo si el usuario no tiene una puntuación en esa dificultad en la table de ranking all
         if (empty(DB::select("SELECT * FROM ranking_alls WHERE user = $id AND difficulty = '$difficulty'"))) {
-            $score = calcPoints($time,$nChallenges);
+            $score = $this->calcPoints($time,$nChallenges);
             $game = [
                 'user' => $id,
                 'difficulty' => $difficulty,
@@ -116,13 +116,14 @@ class UserController extends BaseController
             RankingAll::create($game);
             RankingDaily::create($game);
             RankingWeekly::create($game);
-            return 1;
+            // return 1;
 
+            $success['avgScore'] =  $score;
             $success['score'] =  $score;
             return $this->handleResponse($success, 'puntuación guardada');
         } else {
             // Calculo la puntuación de la partida que acaba de jugar el usuario
-            $score = calcPoints($time,$nChallenges);
+            $score = $this->calcPoints($time,$nChallenges);
 
             $all = new RankingAll();
             $week = new RankingWeekly();
@@ -147,6 +148,19 @@ class UserController extends BaseController
         }
     }
 
+    public function addGame2($partner, $level, $score) {
+        $partnerId = DB::select("SELECT id from users where name like '".$partner."'");
+        $partnerId = $partnerId[0]->id;
+        $history = [
+            'user' => Auth::id(),
+            'partner' => $partnerId,
+            'level' => $level,
+            'score' => $score,
+        ];
+        $success = Game::create($history);
+        return $this->handleResponse($success, 'Historial actualizado');
+    }
+
     //Funcion para obtener la informacion de un usuario.
     public function getUserInfo($id){
         $user = DB::select("SELECT id,name, profile_photo FROM `users` WHERE `id` = '$id';");
@@ -154,9 +168,9 @@ class UserController extends BaseController
         return $this->handleResponse($success, 'Información del usuario');
     }
 
-    public function getUserHistory($name){
-        $history = DB::select("SELECT id, user, level, time FROM `games` where `user` = '$name';");
-        $success['requests'] = $history;
+    public function getUserHistory() {
+        $history = DB::select("SELECT `users`.`name`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE user = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`partner` UNION ALL SELECT `users`.`name`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE partner = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`user`;");
+        $success['history'] = $history;
         return $this->handleResponse($success, 'Historial del usuario');
     }
 

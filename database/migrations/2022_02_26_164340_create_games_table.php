@@ -17,9 +17,11 @@ class CreateGamesTable extends Migration
             $table->id();
             $table->bigInteger('user')->unsigned()->index();
             $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('partner')->unsigned()->index();
+            $table->foreign('partner')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('level')->unsigned()->index();
             $table->foreign('level')->references('id')->on('levels')->onDelete('cascade');
-            $table->integer('time');
+            $table->integer('score');
             $table->timestamps();
         });
     }
