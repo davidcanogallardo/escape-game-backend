@@ -169,7 +169,10 @@ class UserController extends BaseController
     }
 
     public function getUserHistory() {
-        $history = DB::select("SELECT `users`.`name`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE user = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`partner` UNION ALL SELECT `users`.`name`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE partner = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`user`;");
+        $history = DB::select("SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE user = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`partner` UNION ALL SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE partner = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`user`;");
+        foreach ($history as &$row) {
+            $row->profile_photo = json_decode($row->profile_photo);
+        }
         $success['history'] = $history;
         return $this->handleResponse($success, 'Historial del usuario');
     }
