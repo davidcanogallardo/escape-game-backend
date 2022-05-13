@@ -169,7 +169,8 @@ class UserController extends BaseController
     }
 
     public function getUserHistory() {
-        $history = DB::select("SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE user = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`partner` UNION ALL SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE partner = 2 and `games`.level = `levels`.id and `users`.`id` = `games`.`user`;");
+        $id = strval(Auth::id());
+        $history = DB::select("SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE user = ".$id." and `games`.level = `levels`.id and `users`.`id` = `games`.`partner` UNION ALL SELECT `users`.`name`,`users`.`profile_photo`,levels.difficulty, score FROM `games`, `levels`, `users` WHERE partner = ".$id." and `games`.level = `levels`.id and `users`.`id` = `games`.`user`;");
         foreach ($history as &$row) {
             $row->profile_photo = json_decode($row->profile_photo);
         }
@@ -178,6 +179,6 @@ class UserController extends BaseController
     }
 
     function calcPoints($time, $nChallenges){
-        return round(($time/4)*($nChallenges*16),0);
+        return round((($nChallenges*50)/($time*1.2)*150),0);
     }
 }

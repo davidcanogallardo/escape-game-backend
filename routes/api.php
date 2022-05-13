@@ -31,7 +31,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::get('/user/notification-list', [UserController::class, 'getNotificationList'])->middleware('auth:sanctum', 'cors');
 Route::get('/user/friend-list', [UserController::class, 'getFriendList'])->middleware('auth:sanctum');
 Route::get('/user/userinfo/{id}', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
-Route::get('/user/history', [UserController::class, 'getUserHistory']);
+Route::get('/user/history', [UserController::class, 'getUserHistory'])->middleware('auth:sanctum');
 Route::put('/user/friend-request', [UserController::class, 'sendFriendRequest'])->middleware('auth:sanctum');
 Route::put('/user/handle-request/{friend}/{response}', [UserController::class, 'handleFriendRequest'])->middleware('auth:sanctum');
 Route::put('/user/update/photo', [UserController::class, 'updatePhoto'])->middleware('auth:sanctum');
